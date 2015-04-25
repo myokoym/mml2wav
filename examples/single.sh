@@ -1,4 +1,4 @@
 #!/bin/sh
 
-doremiwav generate "A AA  AAA   AAAA    AAAAA     AAAAAA"
+mml2wav generate "A AA  AAA   AAAA    AAAAA     AAAAAA"
 aplay doremi.wav

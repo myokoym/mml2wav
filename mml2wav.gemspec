@@ -1,16 +1,16 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'doremiwav/version'
+require 'mml2wav/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "doremiwav"
-  spec.version       = Doremiwav::VERSION
+  spec.name          = "mml2wav"
+  spec.version       = Mml2wav::VERSION
   spec.authors       = ["Masafumi Yokoyama"]
   spec.email         = ["myokoym@gmail.com"]
-  spec.description   = %q{A simple wav file audio generator by Ruby.}
+  spec.description   = %q{MML (Music Macro Language) to WAV audio converter by Ruby.}
   spec.summary       = spec.description
-  spec.homepage      = "https://github.com/myokoym/doremiwav"
+  spec.homepage      = "https://github.com/myokoym/mml2wav"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)

@@ -1,4 +1,4 @@
-module Doremiwav
+module Mml2wav
   module Scale
     FREQUENCIES = {
       c: 261.626,

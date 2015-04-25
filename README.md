@@ -1,6 +1,6 @@
-# Doremiwav
+# mml2wav
 
-A simple wav file audio generator by Ruby.
+MML (Music Macro Language) to WAV audio converter by Ruby.
 
 ## Dependencies
 
@@ -8,11 +8,11 @@ A simple wav file audio generator by Ruby.
 
 ## Installation
 
-    $ gem install doremiwav
+    $ gem install mml2wav
 
 ## Usage
 
-    $ doremiwav generate "AAAA AA      AAAAAAAA"
+    $ mml2wav generate "AAAA AA      AAAAAAAA"
 
 ## License
 

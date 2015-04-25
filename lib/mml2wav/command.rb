@@ -1,9 +1,9 @@
 require "wavefile"
 require "thor"
-require "doremiwav/scale"
-require "doremiwav/version"
+require "mml2wav/scale"
+require "mml2wav/version"
 
-module Doremiwav
+module Mml2wav
   class Command < Thor
     desc "generate SOUND...", "Generate wav from string"
     option :output
