@@ -1,4 +1,4 @@
 #!/bin/sh
 
-mml2wav generate --output=kaerunouta.wav "cdefedc efgagfe c c c c ccddeeffe d c"
+echo 'cdefedcr efgagfer crcrcrcr ccddeefferdrc' | mml2wav --output=kaerunouta.wav
 aplay kaerunouta.wav
