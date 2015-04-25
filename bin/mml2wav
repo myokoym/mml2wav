@@ -2,4 +2,4 @@
 
 require "mml2wav/command"
 
-Mml2wav::Command.start(ARGV)
+Mml2wav::Command.run(ARGV)
