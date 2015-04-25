@@ -10,7 +10,7 @@ module Mml2wav
 
     def initialize(arguments)
       @options = parse_options(arguments)
-      @sounds = arguments.join(" ")
+      @sounds = ARGF.readlines.join(" ")
     end
 
     def run
@@ -21,7 +21,7 @@ module Mml2wav
     def parse_options(arguments)
       options = {}
 
-      parser = OptionParser.new("#{$0} 'CDECDEGEDCDED'")
+      parser = OptionParser.new("#{$0} INPUT_FILE")
       parser.version = VERSION
 
       parser.on("--output=FILE", "Specify output file path") do |path|
@@ -33,7 +33,7 @@ module Mml2wav
       end
       parser.parse!(arguments)
 
-      if arguments.empty?
+      unless File.pipe?('/dev/stdin') || IO.select([ARGF], nil, nil, 0)
         puts(parser.help)
         exit(true)
       end
