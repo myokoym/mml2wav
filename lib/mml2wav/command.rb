@@ -54,13 +54,13 @@ module Mml2wav
       options
     end
 
-    def sine_wave(frequency, sec=0.1, velocity=0.5)
+    def sine_wave(frequency, sec=0.1, amplitude=0.5)
       max = @sampling_rate * sec
       if frequency == 0
         return Array.new(max) { 0.0 }
       end
       0.upto(max).collect do |n|
-        Math.sin(2.0 * Math::PI * n / @sampling_rate * frequency) * velocity
+        amplitude * Math.sin(2.0 * Math::PI * n / @sampling_rate * frequency)
       end
     end
   end
