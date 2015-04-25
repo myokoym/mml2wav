@@ -59,8 +59,9 @@ module Mml2wav
       if frequency == 0
         return Array.new(max) { 0.0 }
       end
+      base_x = 2.0 * Math::PI * frequency / @sampling_rate
       0.upto(max).collect do |n|
-        amplitude * Math.sin(2.0 * Math::PI * n / @sampling_rate * frequency)
+        amplitude * Math.sin(base_x * n)
       end
     end
   end
