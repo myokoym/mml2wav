@@ -34,7 +34,7 @@ module Mml2wav
     def parse_options(arguments)
       options = {}
 
-      parser = OptionParser.new("#{$0} \'CDECDEGEDCDED\'")
+      parser = OptionParser.new("#{$0} 'CDECDEGEDCDED'")
       parser.version = VERSION
 
       parser.on("--output=FILE", "Specify output file path") do |path|
