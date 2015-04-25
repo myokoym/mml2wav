@@ -12,7 +12,11 @@ MML (Music Macro Language) to WAV audio converter by Ruby.
 
 ## Usage
 
-    $ mml2wav "AAAA AA      AAAAAAAA"
+    $ mml2wav XXX.mml
+
+Or
+
+    $ echo 'MML TEXT' | mml2wav
 
 ## License
 
