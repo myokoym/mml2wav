@@ -22,6 +22,7 @@ module Doremiwav
       end
     end
 
+    desc "version", "Show version"
     def version
       puts(VERSION)
     end
