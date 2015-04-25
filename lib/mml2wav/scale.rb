@@ -8,6 +8,7 @@ module Mml2wav
       g: 391.995,
       a: 440.000,
       b: 493.883,
+      r: 0,
     }
   end
 end

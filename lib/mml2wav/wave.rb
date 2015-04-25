@@ -15,7 +15,8 @@ module Mml2wav
         Writer.new(output_path, format) do |writer|
           buffer_format = Format.new(:mono, :float, sampling_rate)
           sounds.split(//).each do |sound|
-            frequency = Scale::FREQUENCIES[sound.downcase.to_sym] || 0
+            frequency = Scale::FREQUENCIES[sound.downcase.to_sym]
+            next unless frequency
             @sine_waves[sound] ||= sine_wave(frequency, sampling_rate)
             samples = @sine_waves[sound]
             buffer = Buffer.new(samples, buffer_format)
