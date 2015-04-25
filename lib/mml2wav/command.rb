@@ -60,7 +60,7 @@ module Mml2wav
         return Array.new(max) { 0.0 }
       end
       base_x = 2.0 * Math::PI * frequency / @sampling_rate
-      0.upto(max).collect do |n|
+      1.upto(max).collect do |n|
         amplitude * Math.sin(base_x * n)
       end
     end
