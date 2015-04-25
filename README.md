@@ -18,6 +18,26 @@ Or
 
     $ echo 'MML TEXT' | mml2wav
 
+## Suppoted MML features
+
+### do re mi...
+
+MML | doremi
+--- | ------
+c   | do
+d   | re
+e   | mi
+f   | fa
+g   | so
+a   | la
+b   | si
+
+### signs
+
+MML | mean
+--- | ------
+r   | rest
+
 ## License
 
 MIT License. See LICENSE.txt for details.
