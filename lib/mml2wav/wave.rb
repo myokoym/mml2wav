@@ -1,19 +1,24 @@
+require "wavefile"
+require "mml2wav/scale"
+
 module Mml2wav
   class Wave
     class << self
+      include WaveFile
+
       def write(sounds, options={})
         output_path = options[:output] || "doremi.wav"
         sampling_rate = options[:sampling_rate] || 8000
 
-        format = WaveFile::Format.new(:mono, :pcm_8, sampling_rate)
+        format = Format.new(:mono, :pcm_8, sampling_rate)
         @sine_waves = {}
-        WaveFile::Writer.new(output_path, format) do |writer|
-          buffer_format = WaveFile::Format.new(:mono, :float, sampling_rate)
+        Writer.new(output_path, format) do |writer|
+          buffer_format = Format.new(:mono, :float, sampling_rate)
           sounds.split(//).each do |sound|
             frequency = Scale::FREQUENCIES[sound.downcase.to_sym] || 0
             @sine_waves[sound] ||= sine_wave(frequency, sampling_rate)
             samples = @sine_waves[sound]
-            buffer = WaveFile::Buffer.new(samples, buffer_format)
+            buffer = Buffer.new(samples, buffer_format)
             writer.write(buffer)
           end
         end
