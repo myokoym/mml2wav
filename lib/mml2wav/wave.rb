@@ -37,34 +37,34 @@ module Mml2wav
 
       private
       def parse(sounds, bpm, velocity, octave, default_length, sampling_rate)
-          sounds.scan(/T\d+|V\d+|L\d+|[A-G][#+-]?\d*\.?|O\d+|[><]|./i).each do |sound|
-            base_sec = 60.0 * 4
-            length = default_length
-            case sound
-            when /\AT(\d+)/i
-              bpm = $1.to_i
-            when /\AV(\d+)/i
-              velocity = $1.to_i
-            when /\AL(\d+)/i
-              default_length = $1.to_f
-            when /\A([A-G][#+-]?)(\d+)(\.)?/i
-              length = $2.to_f
-              sound = $1
-              length = default_length / 1.5 if $3
-            when /\AO(\d+)/i
-              octave = $1.to_i
-            when "<"
-              octave += 1
-            when ">"
-              octave -= 1
-            end
-            sec = base_sec / length / bpm
-            amplitude = velocity.to_f / 10
-            frequency = Scale::FREQUENCIES[sound.downcase]
-            next unless frequency
-            frequency *= (2 ** octave)
-            yield sine_wave(frequency, sampling_rate, sec, amplitude)
+        sounds.scan(/T\d+|V\d+|L\d+|[A-G][#+-]?\d*\.?|O\d+|[><]|./i).each do |sound|
+          base_sec = 60.0 * 4
+          length = default_length
+          case sound
+          when /\AT(\d+)/i
+            bpm = $1.to_i
+          when /\AV(\d+)/i
+            velocity = $1.to_i
+          when /\AL(\d+)/i
+            default_length = $1.to_f
+          when /\A([A-G][#+-]?)(\d+)(\.)?/i
+            length = $2.to_f
+            sound = $1
+            length = default_length / 1.5 if $3
+          when /\AO(\d+)/i
+            octave = $1.to_i
+          when "<"
+            octave += 1
+          when ">"
+            octave -= 1
           end
+          sec = base_sec / length / bpm
+          amplitude = velocity.to_f / 10
+          frequency = Scale::FREQUENCIES[sound.downcase]
+          next unless frequency
+          frequency *= (2 ** octave)
+          yield sine_wave(frequency, sampling_rate, sec, amplitude)
+        end
       end
 
       def sine_wave(frequency, sampling_rate, sec, amplitude=0.5)
