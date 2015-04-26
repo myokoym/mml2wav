@@ -32,6 +32,15 @@ g   | so
 a   | la
 b   | si
 
+### length
+
+MML | length
+--- | -----------------------------
+c4  | 1/4 (default)
+c8  | 1/8
+c16 | 1/16
+c.  | 1.5 times longer than default
+
 ### signs
 
 MML | mean
