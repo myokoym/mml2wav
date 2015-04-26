@@ -8,7 +8,7 @@ module Mml2wav
 
       def write(sounds, options={})
         output_path = options[:output] || "doremi.wav"
-        sampling_rate = options[:sampling_rate] || 8000
+        sampling_rate = options[:sampling_rate] || 22050
         bpm = options[:bpm] || 600
         velocity = 5
         octave = 4
