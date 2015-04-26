@@ -11,12 +11,13 @@ module Mml2wav
         sampling_rate = options[:sampling_rate] || 8000
         bpm = options[:bpm] || 600
         velocity = 5
+        octave = 1.0
 
         format = Format.new(:mono, :pcm_8, sampling_rate)
         @sine_waves = {}
         Writer.new(output_path, format) do |writer|
           buffer_format = Format.new(:mono, :float, sampling_rate)
-          sounds.scan(/T\d+|V\d+|[A-G][#+]?\d*|./i).each do |sound|
+          sounds.scan(/T\d+|V\d+|[A-G][#+]?\d*|[><]|./i).each do |sound|
             base_sec = 60.0
             case sound
             when /\AT(\d+)/i
@@ -26,11 +27,16 @@ module Mml2wav
             when /\A([A-G][#+]?)(\d+)/i
               base_sec /= $2.to_i
               sound = $1
+            when "<"
+              octave *= 2
+            when ">"
+              octave *= 0.5
             end
             sec = base_sec / bpm
             amplitude = velocity.to_f / 10
             frequency = Scale::FREQUENCIES[sound.downcase]
             next unless frequency
+            frequency *= octave
             @sine_waves[sound] ||= sine_wave(frequency, sampling_rate, sec, amplitude)
             samples = @sine_waves[sound]
             buffer = Buffer.new(samples, buffer_format)

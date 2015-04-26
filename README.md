@@ -35,9 +35,11 @@ b   | si
 ### signs
 
 MML | mean
---- | ------
+--- | -----------
 r   | rest
 t90 | BPM
+<   | up octave
+>   | down octave
 
 ## License
 
