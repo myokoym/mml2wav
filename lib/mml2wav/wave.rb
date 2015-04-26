@@ -11,7 +11,7 @@ module Mml2wav
         sampling_rate = options[:sampling_rate] || 8000
         bpm = options[:bpm] || 600
         velocity = 5
-        octave = 1.0
+        octave = 2.0
 
         format = Format.new(:mono, :pcm_8, sampling_rate)
         @sine_waves = {}
