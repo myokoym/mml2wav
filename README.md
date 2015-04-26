@@ -1,6 +1,6 @@
 # mml2wav [![Gem Version](https://badge.fury.io/rb/mml2wav.svg)](http://badge.fury.io/rb/mml2wav)
 
-MML (Music Macro Language) to WAV audio converter by Ruby.
+MML (Music Macro Language) to WAV audio converter by pure Ruby.
 
 ## Dependencies
 

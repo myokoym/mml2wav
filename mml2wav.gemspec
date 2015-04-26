@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.version       = Mml2wav::VERSION
   spec.authors       = ["Masafumi Yokoyama"]
   spec.email         = ["myokoym@gmail.com"]
-  spec.description   = %q{MML (Music Macro Language) to WAV audio converter by Ruby.}
+  spec.description   = %q{MML (Music Macro Language) to WAV audio converter by pure Ruby.}
   spec.summary       = spec.description
   spec.homepage      = "https://github.com/myokoym/mml2wav"
   spec.license       = "MIT"
