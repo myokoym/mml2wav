@@ -6,7 +6,18 @@ module Mml2wav
     class << self
       include WaveFile
 
-      def write(sounds, options={})
+      def write(soundses, options={})
+        if soundses.is_a?(String)
+          channel_type = :mono
+          soundses = [soundses]
+          size = 1
+        elsif soundses.size == 1
+          channel_type = :mono
+          size = 1
+        else
+          channel_type = :stereo
+          size = soundses.size
+        end
         output_path = options[:output] || "doremi.wav"
         sampling_rate = options[:sampling_rate] || 22050
         bpm = options[:bpm] || 120
@@ -14,10 +25,10 @@ module Mml2wav
         octave = 4
         default_length = 4.0
 
-        format = Format.new(:mono, :pcm_8, sampling_rate)
+        format = Format.new(channel_type, :pcm_8, sampling_rate)
         Writer.new(output_path, format) do |writer|
-          buffer_format = Format.new(:mono, :float, sampling_rate)
-          sounds.scan(/T\d+|V\d+|L\d+|[A-G][#+-]?\d*\.?|O\d+|[><]|./i).each do |sound|
+          buffer_format = Format.new(channel_type, :float, sampling_rate)
+          soundses.first.scan(/T\d+|V\d+|L\d+|[A-G][#+-]?\d*\.?|O\d+|[><]|./i).each do |sound|
             base_sec = 60.0 * 4
             length = default_length
             case sound
