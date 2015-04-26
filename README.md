@@ -38,6 +38,7 @@ MML | mean
 --- | -----------
 r   | rest
 t90 | BPM
+O4  | octave
 <   | up octave
 >   | down octave
 
