@@ -18,13 +18,14 @@ module Mml2wav
           buffer_format = Format.new(:mono, :float, sampling_rate)
           sounds.scan(/T\d+|V\d+|[A-G][#+]?\d*|O\d+|[><]|./i).each do |sound|
             base_sec = 60.0
+            note = 4
             case sound
             when /\AT(\d+)/i
               bpm = $1.to_i
             when /\AV(\d+)/i
               velocity = $1.to_i
             when /\A([A-G][#+]?)(\d+)/i
-              base_sec /= $2.to_i
+              note = $2.to_i
               sound = $1
             when /\AO(\d+)/i
               octave = $1.to_i
@@ -33,7 +34,7 @@ module Mml2wav
             when ">"
               octave -= 1
             end
-            sec = base_sec / bpm
+            sec = base_sec / note / bpm
             amplitude = velocity.to_f / 10
             frequency = Scale::FREQUENCIES[sound.downcase]
             next unless frequency
