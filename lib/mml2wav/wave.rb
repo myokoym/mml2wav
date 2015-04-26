@@ -14,7 +14,6 @@ module Mml2wav
         octave = 4
 
         format = Format.new(:mono, :pcm_8, sampling_rate)
-        @sine_waves = {}
         Writer.new(output_path, format) do |writer|
           buffer_format = Format.new(:mono, :float, sampling_rate)
           sounds.scan(/T\d+|V\d+|[A-G][#+]?\d*|O\d+|[><]|./i).each do |sound|
@@ -39,9 +38,7 @@ module Mml2wav
             frequency = Scale::FREQUENCIES[sound.downcase]
             next unless frequency
             frequency *= (2 ** octave)
-            key = "#{sound + octave.to_s}"
-            @sine_waves[key] ||= sine_wave(frequency, sampling_rate, sec, amplitude)
-            samples = @sine_waves[key]
+            samples = sine_wave(frequency, sampling_rate, sec, amplitude)
             buffer = Buffer.new(samples, buffer_format)
             writer.write(buffer)
           end
