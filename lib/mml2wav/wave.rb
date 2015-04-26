@@ -12,20 +12,23 @@ module Mml2wav
         bpm = options[:bpm] || 600
         velocity = 5
         octave = 4
+        default_length = 4.0
 
         format = Format.new(:mono, :pcm_8, sampling_rate)
         Writer.new(output_path, format) do |writer|
           buffer_format = Format.new(:mono, :float, sampling_rate)
-          sounds.scan(/T\d+|V\d+|[A-G][#+]?\d*|O\d+|[><]|./i).each do |sound|
+          sounds.scan(/T\d+|V\d+|L\d+|[A-G][#+]?\d*|O\d+|[><]|./i).each do |sound|
             base_sec = 60.0
-            note = 4
+            length = default_length
             case sound
             when /\AT(\d+)/i
               bpm = $1.to_i
             when /\AV(\d+)/i
               velocity = $1.to_i
+            when /\AL(\d+)/i
+              default_length = $1.to_f
             when /\A([A-G][#+]?)(\d+)/i
-              note = $2.to_i
+              length = $2.to_f
               sound = $1
             when /\AO(\d+)/i
               octave = $1.to_i
@@ -34,7 +37,7 @@ module Mml2wav
             when ">"
               octave -= 1
             end
-            sec = base_sec / note / bpm
+            sec = base_sec / length / bpm
             amplitude = velocity.to_f / 10
             frequency = Scale::FREQUENCIES[sound.downcase]
             next unless frequency

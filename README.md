@@ -35,9 +35,10 @@ b   | si
 ### signs
 
 MML | mean
---- | -----------
+--- | --------------
 r   | rest
 t90 | BPM
+l4  | default length
 o4  | octave
 <   | up octave
 >   | down octave
