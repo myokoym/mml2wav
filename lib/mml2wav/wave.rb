@@ -15,14 +15,19 @@ module Mml2wav
         @sine_waves = {}
         Writer.new(output_path, format) do |writer|
           buffer_format = Format.new(:mono, :float, sampling_rate)
-          sounds.scan(/T\d+|./i).each do |sound|
+          sounds.scan(/T\d+|[A-G][#+]?\d*|./i).each do |sound|
+            base_sec = 60.0
             case sound
             when /\AT(\d+)/i
               bpm = $1.to_i
+            when /\A([A-G][#+]?)(\d+)/i
+              base_sec /= $2.to_i
+              sound = $1
             end
+            sec = base_sec / bpm
             frequency = Scale::FREQUENCIES[sound.downcase]
             next unless frequency
-            @sine_waves[sound] ||= sine_wave(frequency, sampling_rate, bpm)
+            @sine_waves[sound] ||= sine_wave(frequency, sampling_rate, sec)
             samples = @sine_waves[sound]
             buffer = Buffer.new(samples, buffer_format)
             writer.write(buffer)
@@ -31,8 +36,7 @@ module Mml2wav
       end
 
       private
-      def sine_wave(frequency, sampling_rate, bpm=600, amplitude=0.5)
-        sec = 60.0 / bpm
+      def sine_wave(frequency, sampling_rate, sec, amplitude=0.5)
         max = sampling_rate * sec
         if frequency == 0
           return Array.new(max) { 0.0 }
