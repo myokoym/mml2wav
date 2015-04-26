@@ -28,7 +28,16 @@ module Mml2wav
         format = Format.new(channel_type, :pcm_8, sampling_rate)
         Writer.new(output_path, format) do |writer|
           buffer_format = Format.new(channel_type, :float, sampling_rate)
-          soundses.first.scan(/T\d+|V\d+|L\d+|[A-G][#+-]?\d*\.?|O\d+|[><]|./i).each do |sound|
+          parse(soundses.first, bpm, velocity, octave, default_length, sampling_rate) do |samples|
+            buffer = Buffer.new(samples, buffer_format)
+            writer.write(buffer)
+          end
+        end
+      end
+
+      private
+      def parse(sounds, bpm, velocity, octave, default_length, sampling_rate)
+          sounds.scan(/T\d+|V\d+|L\d+|[A-G][#+-]?\d*\.?|O\d+|[><]|./i).each do |sound|
             base_sec = 60.0 * 4
             length = default_length
             case sound
@@ -54,14 +63,10 @@ module Mml2wav
             frequency = Scale::FREQUENCIES[sound.downcase]
             next unless frequency
             frequency *= (2 ** octave)
-            samples = sine_wave(frequency, sampling_rate, sec, amplitude)
-            buffer = Buffer.new(samples, buffer_format)
-            writer.write(buffer)
+            yield sine_wave(frequency, sampling_rate, sec, amplitude)
           end
-        end
       end
 
-      private
       def sine_wave(frequency, sampling_rate, sec, amplitude=0.5)
         max = sampling_rate * sec
         if frequency == 0
