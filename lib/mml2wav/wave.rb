@@ -9,7 +9,7 @@ module Mml2wav
       def write(sounds, options={})
         output_path = options[:output] || "doremi.wav"
         sampling_rate = options[:sampling_rate] || 22050
-        bpm = options[:bpm] || 60
+        bpm = options[:bpm] || 120
         velocity = 5
         octave = 4
         default_length = 4.0
@@ -18,7 +18,7 @@ module Mml2wav
         Writer.new(output_path, format) do |writer|
           buffer_format = Format.new(:mono, :float, sampling_rate)
           sounds.scan(/T\d+|V\d+|L\d+|[A-G][#+]?\d*\.?|O\d+|[><]|./i).each do |sound|
-            base_sec = 60.0
+            base_sec = 60.0 * 4
             length = default_length
             case sound
             when /\AT(\d+)/i
