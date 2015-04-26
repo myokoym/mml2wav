@@ -31,6 +31,10 @@ module Mml2wav
                 "Specify sampling rate", Integer) do |rate|
         options[:sampling_rate] = rate
       end
+      parser.on("--bpm=BPM",
+                "Specify BPM (beats per minute)", Integer) do |bpm|
+        options[:bpm] = bpm
+      end
       parser.parse!(arguments)
 
       unless File.pipe?('/dev/stdin') || IO.select([ARGF], nil, nil, 0)

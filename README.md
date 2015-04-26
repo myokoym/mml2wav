@@ -37,6 +37,7 @@ b   | si
 MML | mean
 --- | ------
 r   | rest
+t90 | BPM
 
 ## License
 
