@@ -17,7 +17,7 @@ module Mml2wav
         format = Format.new(:mono, :pcm_8, sampling_rate)
         Writer.new(output_path, format) do |writer|
           buffer_format = Format.new(:mono, :float, sampling_rate)
-          sounds.scan(/T\d+|V\d+|L\d+|[A-G][#+]?\d*\.?|O\d+|[><]|./i).each do |sound|
+          sounds.scan(/T\d+|V\d+|L\d+|[A-G][#+-]?\d*\.?|O\d+|[><]|./i).each do |sound|
             base_sec = 60.0 * 4
             length = default_length
             case sound
@@ -27,7 +27,7 @@ module Mml2wav
               velocity = $1.to_i
             when /\AL(\d+)/i
               default_length = $1.to_f
-            when /\A([A-G][#+]?)(\d+)(\.)?/i
+            when /\A([A-G][#+-]?)(\d+)(\.)?/i
               length = $2.to_f
               sound = $1
               length = default_length / 1.5 if $3
