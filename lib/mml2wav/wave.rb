@@ -20,7 +20,7 @@ module Mml2wav
             when /\AT(\d+)/i
               bpm = $1.to_i
             end
-            frequency = Scale::FREQUENCIES[sound.downcase.to_sym]
+            frequency = Scale::FREQUENCIES[sound.downcase]
             next unless frequency
             @sine_waves[sound] ||= sine_wave(frequency, sampling_rate, bpm)
             samples = @sine_waves[sound]
