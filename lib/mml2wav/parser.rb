@@ -10,6 +10,7 @@ module Mml2wav
       @velocity = options[:velocity] || 5
       @octave = options[:octave] || 4
       @default_length = options[:default_length] || 4.0
+      @octave_reverse = options[:octave_reverse] || false
       @cursor = 0
     end
 
@@ -32,9 +33,9 @@ module Mml2wav
         when /\AO(\d+)/i
           @octave = $1.to_i
         when "<"
-          @octave += 1
+          @octave += @octave_reverse ? -1 : 1
         when ">"
-          @octave -= 1
+          @octave -= @octave_reverse ? -1 : 1
         end
         sec = base_sec / length / @bpm
         amplitude = @velocity.to_f / 10

@@ -35,6 +35,10 @@ module Mml2wav
                 "Specify BPM (beats per minute)", Integer) do |bpm|
         options[:bpm] = bpm
       end
+      parser.on("--octave_reverse",
+                "Reverse octave sign (><) effects") do |boolean|
+        options[:octave_reverse] = boolean
+      end
       parser.parse!(arguments)
 
       unless File.pipe?('/dev/stdin') || IO.select([ARGF], nil, nil, 0)
