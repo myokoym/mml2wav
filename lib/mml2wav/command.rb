@@ -10,7 +10,9 @@ module Mml2wav
 
     def initialize(arguments)
       @options = parse_options(arguments)
-      @sounds = ARGF.readlines.join.split(/[,\n]/).reject {|sound| sound.empty? }
+      channel_delimiter = @options[:channel_delimiter] || ","
+      channels = ARGF.readlines.join.split(/#{channel_delimiter}/)
+      @sounds = channels.reject {|channel| channel.empty? }
     end
 
     def run
@@ -38,6 +40,10 @@ module Mml2wav
       parser.on("--octave_reverse",
                 "Reverse octave sign (><) effects") do |boolean|
         options[:octave_reverse] = boolean
+      end
+      parser.on("--channel_delimiter=DELIMITER",
+                "Specify channel delimiter") do |delimiter|
+        options[:channel_delimiter] = delimiter
       end
       parser.parse!(arguments)
 
