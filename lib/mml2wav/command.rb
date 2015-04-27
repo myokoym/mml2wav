@@ -10,7 +10,7 @@ module Mml2wav
 
     def initialize(arguments)
       @options = parse_options(arguments)
-      @sounds = ARGF.readlines.join.split(/[,;]/).reject {|sound| sound.empty? }
+      @sounds = ARGF.readlines.join.split(/[,\n]/).reject {|sound| sound.empty? }
     end
 
     def run
