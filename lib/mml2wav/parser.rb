@@ -22,10 +22,13 @@ module Mml2wav
         case sound
         when /\AT(\d+)/i
           @bpm = $1.to_i
+          next
         when /\AV(\d+)/i
           @velocity = $1.to_i
+          next
         when /\AL(\d+)/i
           @default_length = $1.to_f
+          next
         when /\A([A-GR][#+-]?)(\d+)?(\.)?((?:&[A-GR][#+-]?\d*\.?)*)/i
           sound = $1
           length = $2.to_f if $2
@@ -45,10 +48,13 @@ module Mml2wav
           end
         when /\AO(\d+)/i
           @octave = $1.to_i
+          next
         when "<"
           @octave += @octave_reverse ? -1 : 1
+          next
         when ">"
           @octave -= @octave_reverse ? -1 : 1
+          next
         end
         amplitude = @velocity.to_f / 10
         frequency = Scale::FREQUENCIES[sound.downcase]
