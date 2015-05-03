@@ -3,7 +3,7 @@ require "mml2wav/scale"
 module Mml2wav
   class Parser
     def initialize(sounds, sampling_rate, options={})
-      pattern = /T\d+|V\d+|L\d+|[A-G][#+-]?\d*\.?|O\d+|[><]|./i
+      pattern = /T\d+|V\d+|L\d+|[A-GR][#+-]?\d*\.?|O\d+|[><]|./i
       @sounds = sounds.scan(pattern)
       @sampling_rate = sampling_rate
       @bpm = options[:bpm] || 120
@@ -26,7 +26,7 @@ module Mml2wav
           @velocity = $1.to_i
         when /\AL(\d+)/i
           @default_length = $1.to_f
-        when /\A([A-G][#+-]?)(\d+)(\.)?/i
+        when /\A([A-GR][#+-]?)(\d+)(\.)?/i
           length = $2.to_f
           sound = $1
           length = @default_length / 1.5 if $3
