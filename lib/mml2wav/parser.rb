@@ -11,12 +11,11 @@ module Mml2wav
       @octave = options[:octave] || 4
       @default_length = options[:default_length] || 4.0
       @octave_reverse = options[:octave_reverse] || false
-      @cursor = 0
     end
 
-    def wave!
-      @cursor.upto(@sounds.size - 1) do |i|
-        sound = @sounds[i]
+    def parse
+      infos = []
+      @sounds.each do |sound|
         base_sec = 60.0 * 4
         length = @default_length
         case sound
@@ -60,23 +59,15 @@ module Mml2wav
         frequency = Scale::FREQUENCIES[sound.downcase]
         next unless frequency
         frequency *= (2 ** @octave)
-        wave = sine_wave(frequency, @sampling_rate, sec, amplitude)
-        @cursor = i + 1
-        return wave
+        infos << {
+          sound: sound.downcase,
+          frequency: frequency,
+          sampling_rate: @sampling_rate,
+          sec: sec,
+          amplitude: amplitude,
+        }
       end
-      nil
-    end
-
-    private
-    def sine_wave(frequency, sampling_rate, sec, amplitude=0.5)
-      max = sampling_rate * sec
-      if frequency == 0
-        return Array.new(max) { 0.0 }
-      end
-      base_x = 2.0 * Math::PI * frequency / sampling_rate
-      1.upto(max).collect do |n|
-        amplitude * Math.sin(base_x * n)
-      end
+      infos
     end
   end
 end

@@ -27,15 +27,19 @@ module Mml2wav
         format = Format.new(n_channels, :pcm_8, sampling_rate)
         Writer.new(output_path, format) do |writer|
           buffer_format = Format.new(n_channels, :float, sampling_rate)
-          parsers = []
+          infoses = []
           soundses.each do |sounds|
-            parsers << Parser.new(sounds, sampling_rate, options)
+            infoses << Parser.new(sounds, sampling_rate, options).parse
           end
-          waves = Array.new(parsers.size) { [] }
-          loop do
-            parsers.each_with_index do |parser, i|
-              wave = parser.wave!
-              waves[i] += wave if wave
+          waves = Array.new(soundses.size) { [] }
+          0.upto(infoses.collect {|info| info.size }.max) do |infos_index|
+            infoses.each_with_index do |infos, infoses_index|
+              next unless infos[infos_index]
+              wave = sine_wave(infos[infos_index][:frequency],
+                               infos[infos_index][:sampling_rate],
+                               infos[infos_index][:sec],
+                               infos[infos_index][:amplitude])
+              waves[infoses_index] += wave
             end
             break if waves.all? {|wave| wave.empty? }
             buffer_size = waves.reject {|wave| wave.empty? }.collect(&:size).min
@@ -55,6 +59,17 @@ module Mml2wav
             buffer = Buffer.new(samples, buffer_format)
             writer.write(buffer)
           end
+        end
+      end
+
+      def sine_wave(frequency, sampling_rate, sec, amplitude=0.5)
+        max = sampling_rate * sec
+        if frequency == 0
+          return Array.new(max) { 0.0 }
+        end
+        base_x = 2.0 * Math::PI * frequency / sampling_rate
+        1.upto(max).collect do |n|
+          amplitude * Math.sin(base_x * n)
         end
       end
     end
